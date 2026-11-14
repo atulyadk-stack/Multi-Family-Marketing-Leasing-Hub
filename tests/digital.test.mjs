@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {properties} from '../dist/model.mjs';
-import {selectWebsite,websiteSummary,websiteBreakdown,websiteTrend,seedAccounts,selectAccounts,validateAccount,restoreAccounts,safeSocialUrl,socialRows,socialSummary,socialPosts} from '../dist/digital-model.mjs';
+import {selectWebsite,websiteSummary,websiteBreakdown,websiteTrend,seedAccounts,selectAccounts,validateAccount,restoreAccounts,safeSocialUrl,socialRows,socialSummary,socialPosts,socialFeedSelection,socialExportRows,websiteExportRows} from '../dist/digital-model.mjs';
 import worker from '../dist/server/index.js';
 const f={property:'all',pmc:'all',city:'all',dateFrom:'2026-10-01',dateTo:'2026-10-31'};
 test('website activity is scoped by property, company, date and session channel',()=>{
@@ -47,4 +47,28 @@ test('mapped handles validate ownership and URL safety without inventing connect
 });
 test('built worker serves analytics assets and their correct content types',async()=>{
  for(const path of ['/digital.mjs','/digital-model.mjs','/digital.css']){const r=await worker.fetch(new Request('https://example.com'+path));assert.equal(r.status,200);assert.ok((await r.text()).length>100);assert.match(r.headers.get('content-type'),path.endsWith('.css')?/text\/css/:/javascript/);}
+});
+
+test('social handle, search and format filters constrain both feed and exports',()=>{
+ const accounts=seedAccounts(),filter={...f,property:'north',account:'north-0'};
+ const posts=socialFeedSelection(accounts,filter,'','Photo');
+ assert.equal(posts.length,2);assert.ok(posts.every(p=>p.account==='north-0'&&p.format==='Photo'));
+ const rows=socialExportRows(accounts,filter,'feed','','Photo');
+ assert.deepEqual(rows.slice(1).map(r=>r[1]),posts.map(p=>p.id));
+ assert.ok(rows.slice(1).every(r=>r[4]==='Instagram'));
+ assert.ok(socialFeedSelection(accounts,filter,'NEIGHBOURHOOD').length>0);
+ assert.equal(socialFeedSelection(accounts,filter,'no-matching-post').length,0);
+ assert.deepEqual(selectAccounts(accounts,{...filter,platform:'Facebook'}),[]);
+ assert.equal(socialExportRows(accounts,filter,'accounts').length,2);
+ const daily=socialExportRows(accounts,filter);
+ assert.equal(daily.length,32);assert.ok(daily.slice(1).every(r=>r[2]==='northliving'));
+});
+
+test('user acquisition export matches new-user chart and empty exports retain headers',()=>{
+ const filter={...f,dateFrom:'2026-09-01'},source=selectWebsite(filter),rows=websiteExportRows(filter);
+ const first=rows.slice(1).filter(r=>r[1]==='firstChannel');
+ assert.equal(first.reduce((n,r)=>n+r[5],0),websiteSummary(source).newUsers);
+ assert.ok(first.every(r=>r[6]===0));
+ assert.equal(websiteExportRows({...f,property:'north',city:'Oakville'}).length,1);
+ assert.equal(socialExportRows(seedAccounts(),{...f,account:'missing'},'feed').length,1);
 });

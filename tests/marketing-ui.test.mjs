@@ -71,3 +71,16 @@ test('marketing child navigation and analytics views preserve scope and existing
  a.run("location.hash='#social/accounts';render()");assert.match(a.html(),/Harbour Management/);assert.doesNotMatch(a.html(),/<strong>Rivergate Residences/);
  a.run("filters.pmc='Crest Management';location.hash='#website';render()");assert.match(a.html(),/No activity in this selection/);
 });
+
+test('legacy website and social summaries use the detailed workspace data and carry reporting dates',()=>{
+ const a=app();a.run("filters.property='north';marketingFilters.range='custom';marketingFilters.dateFrom='2026-09-10';marketingFilters.dateTo='2026-10-05';location.hash='#attribution/website';render()");
+ const website=a.run('digital.websiteData(reportFilters())');assert.ok(website.sessions>0);
+ assert.match(a.html(),/Same sample visits as Website Analytics/);
+ assert.ok(a.html().includes('>'+website.sessions+'</div>'));
+ assert.ok(a.html().includes('data-from="2026-09-10" data-to="2026-10-05"'));
+ a.run("location.hash='#attribution/organic';render()");
+ assert.match(a.html(),/Same sample activity as Social Media/);
+ assert.doesNotMatch(a.html(),/Illustrative organic social reach/);
+ a.run("digital.action({dataset:{action:'digital-open',route:'website',from:'2026-09-10',to:'2026-10-05'}});render()");
+ assert.match(a.html(),/value="2026-09-10"/);assert.match(a.html(),/value="2026-10-05"/);
+});

@@ -22,3 +22,11 @@ Primary references checked November 14, 2026:
 - https://developers.facebook.com/docs/graph-api/reference/insights/
 - https://developers.facebook.com/docs/graph-api/reference/page/feed/
 - https://developers.facebook.com/docs/instagram-platform/
+
+## Report consistency and feed controls
+
+The existing Website & paid and Social summary pages now read the same analytics records as the detailed workspaces. Their links carry property scope and the chosen dates. Advertising spend remains a separate prorated sample; marketing source filters apply to CRM attribution, while website session-channel and social-platform filters belong to their detailed reports.
+
+Social reports support one account/handle across charts, feeds and exports. Feed search and content-format filters apply before pagination (nine posts per page). Feed CSV exports include every matching post across pages; the Accounts tab exports mappings, including disconnected accounts. Shared-company coverage is explicit in exports. A selected account resets when a property/platform change makes it ineligible.
+
+Newly saved mappings are selected immediately and have no performance data. Unavailable metrics display a dash rather than a measured zero. Validated profile URLs are exposed as links. Demographic/technology bars show the share of distinct active users, with overlap caveats retained; first-user acquisition details and exports include new visits only.
