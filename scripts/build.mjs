@@ -5,6 +5,9 @@ const files = {
   'app.mjs': 'text/javascript; charset=utf-8',
   'model.mjs': 'text/javascript; charset=utf-8',
   'styles.css': 'text/css; charset=utf-8',
+  'leasing.mjs': 'text/javascript; charset=utf-8',
+  'prospects.mjs': 'text/javascript; charset=utf-8',
+  'leasing.css': 'text/css; charset=utf-8',
   'icon.svg': 'image/svg+xml',
 };
 const assets = {};
