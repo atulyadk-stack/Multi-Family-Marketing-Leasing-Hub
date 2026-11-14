@@ -1,6 +1,9 @@
 import {copyFile, mkdir, readFile, writeFile} from 'node:fs/promises';
 
 const files = {
+  'events.mjs': 'text/javascript; charset=utf-8',
+  'events-model.mjs': 'text/javascript; charset=utf-8',
+  'events.css': 'text/css; charset=utf-8',
   'index.html': 'text/html; charset=utf-8',
   'app.mjs': 'text/javascript; charset=utf-8',
   'model.mjs': 'text/javascript; charset=utf-8',
@@ -27,3 +30,4 @@ await copyFile('dist/model.mjs', 'dist/server/model.mjs');
 const listings = await readFile('dist/server/property-listings.mjs', 'utf8');
 await writeFile('dist/server/property-listings.mjs', listings.replace('../dist/model.mjs', './model.mjs'));
 await writeFile('dist/server/assets.mjs', 'export const assets = ' + JSON.stringify(assets) + ';\n');
+

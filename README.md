@@ -107,3 +107,15 @@ The property dialog shows contact details from the portfolio record. For a live 
 The sidebar Call Center dashboard and portfolio KPI section share six metrics: incoming calls, answer rate, abandonment rate, average speed to answer, average handle time and call-to-tour conversion. They use the same phone events as Prospect 360 and follow property, company, city and enquiry-cohort filters. The activity list supports outcome filters, pagination, scoped CSV export and prospect-history links.
 
 These are fictional call records and browser-saved manual logs. The reporting cohort selects enquiries and their full call history; it is not a call-received date range. Missing queue or wrap-up fields are excluded from averages, and only explicitly attributed inbound bookings count toward tour conversion. Metric definitions and timing coverage appear in the dashboard. No live telephony is connected.
+
+## Onsite Activity and resident events
+
+The **Onsite Activity** navigation section adds an event calendar, planned and past event lists, and event pictures. Filter by property, management company, city, event type and date range; export the current view to CSV. Calendar navigation uses event dates in Eastern Time, independently of marketing enquiry cohorts. On narrow layouts, the calendar is presented as an agenda.
+
+Property directory cards and the property detail dialog show planned/past event counts, the next event, photo counts and links to the relevant event workspace. Portfolio-wide events retain one ID and appear under every participating property without being duplicated in portfolio totals.
+
+Create and edit events, select participating properties, set venue/organizer/capacity, manage resident RSVPs and guests, use a waitlist, and record or undo attendance on or after an event's date. Event photos support a carousel and local JPEG/PNG/WebP uploads (1 MB per image, up to 8 per event). Sample venue photos are clearly marked illustrative. Cancellation preserves the record and attendance history.
+
+This remains a prototype: fictional data, no invitation delivery, no resident self-service registration, and no shared or cross-device event storage. Event data and uploaded pictures use a separate browser-local store (`mf-hub-onsite-events-v1`); Reset demo clears it along with other demo state. Storage failures leave the previous saved event state intact.
+
+Validation for this addition: syntax checks, Worker build, event/filter/RSVP/capacity/attendance/restore tests, and application-rendering integration checks. Browser and mobile visual QA could not run because no connected browser was available. Site publication requires synchronizing the committed source with the existing Sites source repository; the Sites Git hostname was unavailable in this session.
