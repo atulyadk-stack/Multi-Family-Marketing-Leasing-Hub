@@ -19,6 +19,7 @@ const files = {
   'call-center.css': 'text/css; charset=utf-8',
   'portfolio.mjs': 'text/javascript; charset=utf-8',
   'portfolio.css': 'text/css; charset=utf-8',
+  'interactions.css': 'text/css; charset=utf-8',
   'icon.svg': 'image/svg+xml',
 };
 const assets = {};

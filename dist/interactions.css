@@ -1,0 +1,40 @@
+/* Shared interaction emphasis: 30% stronger borders and tab padding, with
+   accessible contrast, visible active states and consistent touch targets. */
+:root{--cta-border:1.3px;--cta-ink:#34526c}
+.btn{min-height:44px;padding:12px 18px;font-size:12px;font-weight:700;box-shadow:0 2px 6px #11223910;transition:background .15s,border-color .15s,box-shadow .15s}
+.btn.secondary{border:var(--cta-border) solid color-mix(in srgb,var(--brand) 30%,#dbe4ec);color:var(--ink);background:#fff}
+.btn.secondary:hover{background:var(--soft);border-color:var(--brand);filter:none;box-shadow:0 3px 10px #11223912}
+.btn.ghost{padding:8px 2px;min-height:36px;box-shadow:none;font-weight:700;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--brand) 28%,transparent);text-underline-offset:4px;white-space:normal}
+.btn.ghost:hover{color:var(--ink);text-decoration-color:var(--brand);filter:none}
+.btn.small{min-height:38px;padding:9px 13px;font-size:11px}
+.tabs{gap:6px;padding-bottom:4px}
+.tab,.tabs .btn{border:var(--cta-border) solid #d3dfe9;border-bottom:3px solid transparent;border-radius:7px 7px 0 0;background:#f0f4f8;color:var(--cta-ink);font-size:12px;font-weight:650;padding:12px 17px;min-height:44px;box-shadow:none;white-space:nowrap}
+.tab:hover,.tabs .btn:hover{background:var(--soft);border-color:color-mix(in srgb,var(--brand) 40%,#d3dfe9);color:var(--brand);filter:none}
+.tab.active,.tabs .btn.selected,.tabs [aria-current="page"]{background:var(--soft);color:var(--brand);border-color:color-mix(in srgb,var(--brand) 30%,#d3dfe9);border-bottom:3px solid var(--brand);font-weight:750;box-shadow:inset 0 -1px var(--brand)}
+.display-button{min-height:36px;font-weight:700;border:var(--cta-border) solid #d1dee8}
+.display-button.active{background:var(--soft);color:var(--brand);border-color:var(--brand);box-shadow:inset 0 -2px var(--brand)}
+.nav{font-weight:600}.nav.active{font-weight:750;box-shadow:inset 0 0 0 1px #7ad7c526}
+.metric-link{text-align:left;width:100%;display:flex;flex-direction:column;cursor:pointer;border-width:var(--cta-border)}
+.metric-link .metric-title{width:100%}.metric-link .metric-value,.metric-link .metric-detail{display:block}.metric-link .metric-detail{flex:1}
+.touch-hint{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:650;color:var(--brand);margin-top:13px}
+.metric-link:hover,.channel-highlight:hover,.cc-kpi:hover{border-color:var(--brand);box-shadow:0 4px 16px #11223913}
+.channel-highlight{text-align:left;display:flex;flex-direction:column;width:100%;border-width:var(--cta-border)}
+.channel-name{display:block;font-size:13px;font-weight:700}.channel-detail{display:block;font-size:10px;line-height:1.7;color:var(--muted);margin-top:7px}.channel-highlight .touch-hint{margin-top:auto;padding-top:13px}
+.stage-transition{background:transparent;border-radius:9px}.stage-transition:hover{background:var(--soft)}.stage-transition:hover .conversion-rate{border-color:var(--brand)}
+.leasing-flow-summary{text-align:left;width:100%;border-width:var(--cta-border)}.leasing-flow-summary:hover{border-color:var(--brand);box-shadow:0 3px 12px #1122390d}
+.leasing-summary-main{display:flex;align-items:center;gap:12px;font-size:12px}.leasing-summary-note{font-size:10px;color:var(--muted);line-height:1.8;text-align:right}
+.touch-row{background:transparent;width:100%;text-align:left;min-height:48px;border-radius:6px}.touch-row:hover{background:var(--soft);padding-inline:8px;color:var(--brand)}
+.owner-touchpoints{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:var(--muted)}.owner-touchpoints .btn.ghost{font-size:10px;padding-block:4px;min-height:30px}
+.attention .touch-link{font-size:inherit;text-align:left;justify-content:flex-start}.attention h3 .touch-link{font-weight:700}.attention p .touch-link{font-weight:500}
+.source-bar-link{grid-template-columns:116px minmax(0,1fr) 32px;background:transparent;width:100%;text-align:left;min-height:44px;margin-bottom:8px;padding:6px 0;border-radius:6px}.source-bar-link .bar-track{display:block;height:18px}.source-bar-link .bar{display:block}.source-bar-link:hover{background:var(--soft);color:var(--brand)}
+.review-chart-link{display:block;width:100%;background:transparent;text-align:left;border-radius:8px;padding:4px}.review-chart-link:hover{background:var(--soft)}
+.theme-link{width:100%;background:transparent;text-align:left;border-radius:7px;padding:9px 0;min-height:44px}.theme-link:hover{background:var(--soft)}
+.review-excerpt{display:block;width:100%;background:transparent;text-align:left;padding:5px 0;font-size:12px;color:#596c81;line-height:1.8;border-radius:6px}.review-excerpt:hover{color:var(--brand);background:var(--soft)}
+.review-meta .touch-link{font-size:10px;min-height:32px}.conversion-detail{padding:24px;background:var(--soft);border-radius:10px;text-align:center;margin-bottom:18px}.conversion-detail>strong{font-size:38px;color:var(--brand)}.conversion-detail p{font-size:12px;color:var(--muted);margin-top:7px}
+button[data-action]:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+@media(max-width:1199px){.leasing-summary-note{text-align:left}}
+@media(max-width:700px){.btn,.btn.small,.btn.ghost,.tab,.tabs .btn,.display-button,.owner-touchpoints .btn.ghost,.review-meta .touch-link{min-height:44px}.btn{padding:11px 15px}.btn.ghost{padding:8px 2px}.tabs{max-width:100%;overflow-x:auto}.tab,.tabs .btn{padding:11px 14px;font-size:12px;flex-shrink:0}.metric-link .touch-hint{font-size:11px}.source-bar-link{grid-template-columns:102px minmax(0,1fr) 28px}.owner-touchpoints{gap:4px}.owner-touchpoints .btn.ghost{font-size:11px}.review-excerpt{font-size:13px}.leasing-summary-main{font-size:11px}.touch-hint{white-space:normal}.toolbar-group select{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}}
+.collection-list>.channel-highlight .metric-title{grid-column:1;grid-row:1}.collection-list>.channel-highlight .channel-value{grid-column:2;grid-row:1/3}.collection-list>.channel-highlight .channel-name{grid-column:1;grid-row:2}.collection-list>.channel-highlight .channel-detail{grid-column:3;grid-row:1/3}.collection-list>.channel-highlight .touch-hint{grid-column:3;grid-row:3;padding-top:0}.collection-list>.metric>.touch-hint{grid-column:3;margin-top:0}.link,.cc-inline-button{font-weight:700;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--brand) 30%,transparent);text-underline-offset:4px}.link:hover,.cc-inline-button:hover{text-decoration-color:var(--brand)}
+@media(max-width:700px){.collection-list>.channel-highlight>*{grid-column:1!important;grid-row:auto!important}}
+@media(max-width:600px){.collection-list>.metric>.touch-hint{grid-column:1/-1}}
