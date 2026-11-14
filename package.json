@@ -1,0 +1,12 @@
+{
+  "name": "mf-hub-v1",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check dist/app.mjs && node --check dist/model.mjs && node --check worker/index.mjs && node --check worker/scrape.mjs && node --check worker/property-listings.mjs",
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && node scripts/dev.mjs"
+  }
+}
