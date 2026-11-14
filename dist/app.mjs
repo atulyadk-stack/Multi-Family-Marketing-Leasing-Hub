@@ -1,3 +1,4 @@
+import {createCompetitorWorkspace} from './competitors.mjs';
 import {createDigitalWorkspace} from './digital.mjs';
 import {displayMode, displaySwitch, setDisplayMode, enhanceCollections} from './display-views.mjs';
 import {renderPortfolio} from './portfolio.mjs';
@@ -100,7 +101,7 @@ function reputation(tab,m){const titles={overview:'Online reputation at a glance
   const issues=m.properties.filter(p=>['north','willow'].includes(p.id)&&!state.listingFixes.includes(p.id));
   body=`<div class="metrics">${metric('Directory records',m.properties.length*12,'12 sample directories per property','globe')}${metric('In sync',m.properties.length*12-issues.length,'Sample listing health','check')}${metric('Needs attention',issues.length,'Hours or phone discrepancy','info')}${metric('Google visibility',num(sum(m.properties,'impressions')*2/3),'Illustrative monthly impressions','search')}</div>${panel('Listing health','Correct a sample listing issue and watch the status update.',table(['Property','Directory','Issue','Status','Action'],m.properties.map(p=>{const has=issues.some(i=>i.id===p.id);return `<tr>${td(propertyLink(p))}${td('Google Business Profile')}${td(has?(p.id==='north'?'Office hours mismatch':'Phone number mismatch'):'Property details aligned')}${td(chip(has?'Needs attention':'In sync',has?'warn':'good'))}${td(has?btn('Review & resolve','listing',`data-id="${p.id}"`,'secondary small'):'—')}</tr>`;})),'','full')}`;
  }else if(tab==='competitors'){
-  body=`<div class="insight">${icon('info')}<span>Neighbourhood comparisons use fictional competitors and illustrative lifetime ratings. These are separate from the period-specific ratings in your review reports.</span></div>${panel('Local reputation benchmark','A starting point for a property-level competitive review.',table(['Your property','#Lifetime rating','Nearby community','#Rating','Action'],m.properties.map(p=>{const i=properties.indexOf(p);return `<tr>${td(propertyLink(p))}${td([4.1,4.6,4.3,4.2][i].toFixed(1),true)}${td(['Parkside Commons','Oak Terrace','Maple House','Brookfield Homes'][i])}${td([4.4,4.3,4.5,4.4][i].toFixed(1),true)}${td(btn('Create task','task',`data-key="benchmark-${p.id}" data-property="${p.id}" data-title="Review local reputation benchmark for ${p.name}"`,'secondary small'))}</tr>`;})))}`;
+  body=competitors.view(m.properties);
  }else{
   const invites=m.properties.length*300,responses=m.properties.length*60,prom=sum(m.properties,p=>p.survey[0]),det=sum(m.properties,p=>p.survey[2]),nps=Math.round(ratio(prom-det,responses)*100);
   body=`<div class="metrics">${metric('Survey invitations',num(invites),'Illustrative resident survey cohort','message')}${metric('Responses',responses,pct(responses,invites)+' response rate','check')}${metric('Resident NPS',(nps>0?'+':'')+nps,'Promoters minus detractors','people')}${metric('Detractors',det,'Respondents scoring 0–6','info')}</div>${panel('Resident survey scorecard','NPS comes from a separate sample survey, not review stars.',table(['Property','#Invited','#Responses','#Promoters','#Detractors','#NPS'],m.properties.map(p=>`<tr>${td(propertyLink(p))}${td(300,true)}${td(60,true)}${td(p.survey[0],true)}${td(p.survey[2],true)}${td(Math.round((p.survey[0]-p.survey[2])/60*100),true)}</tr>`)),'','full')}${panel('Close the feedback loop','Bring low survey scores into a team follow-up workflow.',`<p class="muted" style="font-size:12px;margin-bottom:17px">Create a sample task to review resident concerns and agree on next steps with the property team.</p>${btn('Create survey follow-up task','task',`data-key="survey-${filters.property}" data-property="${filters.property}" data-title="Review resident survey detractors and agree follow-up owners"`)}`)}`;
@@ -282,6 +283,7 @@ function conversionDialog(stage){
 }
 
 // Delegated events keep filters and workflows connected after each render.
+const competitors=createCompetitorWorkspace({esc,btn,panel,table,td,propertyLink,openDialog,render,toast});
 const digital=createDigitalWorkspace({esc,btn,chip,heading,panel,metric,table,td,num,pct,filters,render,navigate,openDialog,closeDialog,toast});
 const onsiteEvents=createEventsWorkspace({esc,btn,chip,heading,panel,metric,icon,filters,render,navigate,openDialog,closeDialog,toast});
 const callCenter=createCallCenter({esc,icon,btn,chip,panel,heading,filters,getState:()=>state,render,refreshProperty:id=>{const scroll=dialog.scrollTop;propertyDialog(id);dialog.scrollTop=scroll;}});
@@ -298,7 +300,7 @@ async function onAction(e){const b=e.target.closest('[data-action]');if(!b||b.di
     for(const control of document.querySelectorAll('[data-action="display-view"][data-display="'+key+'"]')){control.setAttribute('aria-pressed',String(control.dataset.view===mode));control.classList.toggle('active',control.dataset.view===mode);}
     dialog.scrollTop=scroll;return;
   }
-  if(digital.action(b)||onsiteEvents.action(b)||callCenter.action(b)||leasing.action(b))return;
+  if(competitors.action(b)||digital.action(b)||onsiteEvents.action(b)||callCenter.action(b)||leasing.action(b))return;
   if(action==='marketing-reset'){resetMarketingFilters();render();}
   else if(action==='marketing-stage'){if(b.dataset.property)Object.assign(filters,{property:b.dataset.property,pmc:'all',city:'all'});marketingStage=b.dataset.stage;leadSource='all';leadSearch='';leadPage=0;navigate('attribution/journeys');}
   else if(action==='navigate')navigate(b.dataset.route);
@@ -324,8 +326,8 @@ async function onAction(e){const b=e.target.closest('[data-action]');if(!b||b.di
   else if(action==='resolve-listing'){if(!state.listingFixes.includes(id))state.listingFixes.push(id);persist();closeDialog();render();toast('Sample listing resolved. Listing health updated.');}
   else if(action==='connection')connectionDialog(b.dataset.name,b.dataset.scope);
   else if(action==='accent'){const draftName=document.getElementById('brand-name')?.value;state.accent=id;persist();render();if(draftName!==undefined)document.getElementById('brand-name').value=draftName;}
-  else if(action==='reset-dialog')openDialog('Reset this demo?','Restore the original sample workspace.',`<p class="muted" style="font-size:12px;line-height:1.8">This removes saved responses, tasks, assignments, bookings, events, RSVPs, event pictures, social account mappings and branding in this browser. No external data is affected.</p><div class="dialog-actions">${btn('Keep my changes','close','','secondary')}${btn('Reset demo','reset','','danger')}</div>`);
-  else if(action==='reset'){digital.reset();onsiteEvents.reset();resetMarketingFilters();state=prepareCRM(defaultState());persist();Object.assign(filters,{property:'all',pmc:'all',city:'all',month:10});inboxStatus='open';inboxRating='all';inboxSearch='';inboxOwner=inboxTopic='all';leadSearch='';leadSource='all';inboxPage=leadPage=0;navigate('portfolio');toast('Demo reset. Ready for your next presentation.');}
+  else if(action==='reset-dialog')openDialog('Reset this demo?','Restore the original sample workspace.',`<p class="muted" style="font-size:12px;line-height:1.8">This removes saved responses, tasks, assignments, bookings, events, RSVPs, event pictures, social account mappings, custom competitors and branding in this browser. No external data is affected.</p><div class="dialog-actions">${btn('Keep my changes','close','','secondary')}${btn('Reset demo','reset','','danger')}</div>`);
+  else if(action==='reset'){competitors.reset();digital.reset();onsiteEvents.reset();resetMarketingFilters();state=prepareCRM(defaultState());persist();Object.assign(filters,{property:'all',pmc:'all',city:'all',month:10});inboxStatus='open';inboxRating='all';inboxSearch='';inboxOwner=inboxTopic='all';leadSearch='';leadSource='all';inboxPage=leadPage=0;navigate('portfolio');toast('Demo reset. Ready for your next presentation.');}
   else if(action==='demo')guidedDemo();
   else if(action==='definitions')definitions();
   else if(action==='search')searchDialog();
@@ -351,7 +353,7 @@ dialog.addEventListener('change',e=>{if(callCenter.change(e.target))return;if(e.
 root.addEventListener('submit',e=>{if(digital.submit(e)||onsiteEvents.submit(e)||leasing.submit(e))return;
  if(e.target.id==='marketing-dates'){e.preventDefault();const data=new FormData(e.target),dates={dateFrom:data.get('dateFrom'),dateTo:data.get('dateTo')};try{reportingRange(dates);Object.assign(marketingFilters,dates);leadPage=0;render();document.getElementById('marketing-from')?.focus();}catch(error){document.getElementById('marketing-date-error').textContent=error.message;}return;}
 if(e.target.id==='brand-form'){e.preventDefault();const value=new FormData(e.target).get('brand').trim();if(!value){document.getElementById('brand-name').setCustomValidity('Enter a portfolio name.');document.getElementById('brand-name').reportValidity();return;}state.brand=value.slice(0,50);persist();render();toast('Workspace branding updated.');}});
-dialog.addEventListener('submit',e=>{if(digital.submit(e)||onsiteEvents.submit(e))return;if(e.target.id==='review-form'){e.preventDefault();try{respond(state,e.target.dataset.id,new FormData(e.target).get('response'));persist();closeDialog();render();toast('Demo response completed. Reputation metrics updated.');}catch(error){document.getElementById('form-error').textContent=error.message;}}});
+dialog.addEventListener('submit',e=>{if(competitors.submit(e)||digital.submit(e)||onsiteEvents.submit(e))return;if(e.target.id==='review-form'){e.preventDefault();try{respond(state,e.target.dataset.id,new FormData(e.target).get('response'));persist();closeDialog();render();toast('Demo response completed. Reputation metrics updated.');}catch(error){document.getElementById('form-error').textContent=error.message;}}});
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();searchDialog();}});
 document.querySelector('.skip').addEventListener('click',e=>{e.preventDefault();document.getElementById('main').focus();});
 window.addEventListener('hashchange',()=>{closeDialog();render();});

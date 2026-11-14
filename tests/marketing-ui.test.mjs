@@ -1,3 +1,4 @@
+import {createCompetitorWorkspace} from '../dist/competitors.mjs';
 import {createDigitalWorkspace} from '../dist/digital.mjs';
 import * as display from '../dist/display-views.mjs';
 import {renderPortfolio} from '../dist/portfolio.mjs';
@@ -16,7 +17,7 @@ function app(){
  const elements=new Map(),handlers={},downloads=[];
  const element=id=>{if(!elements.has(id))elements.set(id,{dataset:{},querySelectorAll(){return [];},innerHTML:'',textContent:'',addEventListener(type,fn){handlers[id+':'+type]=fn;},focus(){},classList:{add(){},remove(){}},close(){}});return elements.get(id);};
  let hash='#attribution/overview';const location={get hash(){return hash;},set hash(value){hash=value.startsWith('#')?value:'#'+value;}};
- const context=vm.createContext({createDigitalWorkspace,...model,...display,renderPortfolio,prepareCRM,createCallCenter,createEventsWorkspace,createLeasingWorkspace:api=>({...createLeasingWorkspace(api),change(){return false;}}),location,Intl,Date,Blob,URL:{createObjectURL(blob){downloads.push(blob);return 'blob:test';},revokeObjectURL(){}},setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null;},setItem(){}},document:{getElementById:element,querySelector:element,documentElement:{style:{setProperty(){}}},addEventListener(){},body:{append(){}},createElement(){return {click(){},remove(){}};}},window:{scrollTo(){},addEventListener(type,fn){handlers['window:'+type]=fn;}}});
+ const context=vm.createContext({createCompetitorWorkspace,createDigitalWorkspace,...model,...display,renderPortfolio,prepareCRM,createCallCenter,createEventsWorkspace,createLeasingWorkspace:api=>({...createLeasingWorkspace(api),change(){return false;}}),location,Intl,Date,Blob,URL:{createObjectURL(blob){downloads.push(blob);return 'blob:test';},revokeObjectURL(){}},setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null;},setItem(){}},document:{getElementById:element,querySelector:element,documentElement:{style:{setProperty(){}}},addEventListener(){},body:{append(){}},createElement(){return {click(){},remove(){}};}},window:{scrollTo(){},addEventListener(type,fn){handlers['window:'+type]=fn;}}});
  const code=readFileSync(new URL('../dist/app.mjs',import.meta.url),'utf8').replace(/^import .+;\n/gm,'');vm.runInContext(code,context);
  return {context,downloads,run:code=>vm.runInContext(code,context),html:()=>element('app').innerHTML,change:(key,value)=>handlers['app:change']({target:{id:'marketing-'+key,hasAttribute(){return false;},dataset:{marketing:key},value}})};
 }
