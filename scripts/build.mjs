@@ -1,6 +1,9 @@
 import {copyFile, mkdir, readFile, writeFile} from 'node:fs/promises';
 
 const files = {
+  'digital.mjs':'text/javascript; charset=utf-8',
+  'digital-model.mjs':'text/javascript; charset=utf-8',
+  'digital.css':'text/css; charset=utf-8',
   'display-views.mjs':'text/javascript; charset=utf-8',
   'display-views.css':'text/css; charset=utf-8',
   'call-center-ui.mjs':'text/javascript; charset=utf-8',

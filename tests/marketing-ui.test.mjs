@@ -1,3 +1,4 @@
+import {createDigitalWorkspace} from '../dist/digital.mjs';
 import * as display from '../dist/display-views.mjs';
 import {renderPortfolio} from '../dist/portfolio.mjs';
 import {createEventsWorkspace} from '../dist/events.mjs';
@@ -15,7 +16,7 @@ function app(){
  const elements=new Map(),handlers={},downloads=[];
  const element=id=>{if(!elements.has(id))elements.set(id,{dataset:{},querySelectorAll(){return [];},innerHTML:'',textContent:'',addEventListener(type,fn){handlers[id+':'+type]=fn;},focus(){},classList:{add(){},remove(){}},close(){}});return elements.get(id);};
  let hash='#attribution/overview';const location={get hash(){return hash;},set hash(value){hash=value.startsWith('#')?value:'#'+value;}};
- const context=vm.createContext({...model,...display,renderPortfolio,prepareCRM,createCallCenter,createEventsWorkspace,createLeasingWorkspace:api=>({...createLeasingWorkspace(api),change(){return false;}}),location,Intl,Date,Blob,URL:{createObjectURL(blob){downloads.push(blob);return 'blob:test';},revokeObjectURL(){}},setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null;},setItem(){}},document:{getElementById:element,querySelector:element,documentElement:{style:{setProperty(){}}},addEventListener(){},body:{append(){}},createElement(){return {click(){},remove(){}};}},window:{scrollTo(){},addEventListener(type,fn){handlers['window:'+type]=fn;}}});
+ const context=vm.createContext({createDigitalWorkspace,...model,...display,renderPortfolio,prepareCRM,createCallCenter,createEventsWorkspace,createLeasingWorkspace:api=>({...createLeasingWorkspace(api),change(){return false;}}),location,Intl,Date,Blob,URL:{createObjectURL(blob){downloads.push(blob);return 'blob:test';},revokeObjectURL(){}},setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null;},setItem(){}},document:{getElementById:element,querySelector:element,documentElement:{style:{setProperty(){}}},addEventListener(){},body:{append(){}},createElement(){return {click(){},remove(){}};}},window:{scrollTo(){},addEventListener(type,fn){handlers['window:'+type]=fn;}}});
  const code=readFileSync(new URL('../dist/app.mjs',import.meta.url),'utf8').replace(/^import .+;\n/gm,'');vm.runInContext(code,context);
  return {context,downloads,run:code=>vm.runInContext(code,context),html:()=>element('app').innerHTML,change:(key,value)=>handlers['app:change']({target:{id:'marketing-'+key,hasAttribute(){return false;},dataset:{marketing:key},value}})};
 }
@@ -52,4 +53,21 @@ test('portfolio sections remain ordered and leasing conversions drill into filte
  a.run("filters.property='north';render()");assert.match(a.html(),/33.3%/);
  await a.run("onAction({target:{closest:()=>({dataset:{action:'drill-stage',stage:'scheduled'}})}})");
  a.run('render()');assert.equal(a.run('filters.property'),'north');assert.match(a.html(),/Tours scheduled · 30 leads/);
+});
+
+test('marketing child navigation and analytics views preserve scope and existing workflows',()=>{
+ const a=app();
+ for(const route of ['website/overview','website/demographics','website/technology','website/acquisition','social/overview','social/feed','social/accounts']){
+  a.run(`location.hash='#${route}';render()`);
+  assert.match(a.html(),/aria-label="Marketing Intelligence sections"/);
+  assert.doesNotMatch(a.html(),/Onsite Activity|NaN|undefined/);
+  assert.doesNotMatch(a.html(),/id="marketing-source"|id="filter-month"/);
+  assert.match(a.html(),/Activity dates/);
+ }
+ a.run("location.hash='#website/demographics';render()");
+ for(const label of ['Age overview','Gender overview','Active users by interest','Language','Location · city','Location · country'])assert.ok(a.html().includes(label));
+ a.run("filters.property='north';location.hash='#website/technology';render()");
+ assert.match(a.html(),/Mobile phones &amp; device models|Mobile phones & device models/);
+ a.run("location.hash='#social/accounts';render()");assert.match(a.html(),/Harbour Management/);assert.doesNotMatch(a.html(),/<strong>Rivergate Residences/);
+ a.run("filters.pmc='Crest Management';location.hash='#website';render()");assert.match(a.html(),/No activity in this selection/);
 });

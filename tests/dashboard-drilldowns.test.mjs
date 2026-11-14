@@ -1,3 +1,4 @@
+import {createDigitalWorkspace} from '../dist/digital.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -15,7 +16,7 @@ function app(){
   const elements=new Map(),downloads=[];
   const element=id=>{if(!elements.has(id))elements.set(id,{innerHTML:'',textContent:'',open:false,dataset:{},querySelectorAll(){return [];},querySelector(){return {focus(){}};},addEventListener(){},focus(){},classList:{add(){},remove(){},toggle(){}},close(){this.open=false;},showModal(){this.open=true;}});return elements.get(id);};
   let hash='#portfolio';const location={get hash(){return hash;},set hash(value){hash=value.startsWith('#')?value:'#'+value;},origin:'https://demo.invalid'};
-  const context=vm.createContext({...model,...display,renderPortfolio,prepareCRM,createCallCenter,createLeasingWorkspace,createEventsWorkspace,location,Intl,Date,Blob,AbortSignal,URL:{createObjectURL(blob){downloads.push(blob);return 'blob:test';},revokeObjectURL(){}},fetch:async()=>({ok:false}),setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null;},setItem(){}},document:{getElementById:element,querySelector:element,querySelectorAll(){return [];},documentElement:{style:{setProperty(){}}},addEventListener(){},body:{append(){}},createElement(){return {click(){},remove(){}};}},window:{scrollTo(){},addEventListener(){}}});
+  const context=vm.createContext({createDigitalWorkspace,...model,...display,renderPortfolio,prepareCRM,createCallCenter,createLeasingWorkspace,createEventsWorkspace,location,Intl,Date,Blob,AbortSignal,URL:{createObjectURL(blob){downloads.push(blob);return 'blob:test';},revokeObjectURL(){}},fetch:async()=>({ok:false}),setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null;},setItem(){}},document:{getElementById:element,querySelector:element,querySelectorAll(){return [];},documentElement:{style:{setProperty(){}}},addEventListener(){},body:{append(){}},createElement(){return {click(){},remove(){}};}},window:{scrollTo(){},addEventListener(){}}});
   vm.runInContext(readFileSync(new URL('../dist/app.mjs',import.meta.url),'utf8').replace(/^import .+;\n/gm,''),context);
   const run=code=>vm.runInContext(code,context);
   return {run,html:()=>element('app').innerHTML,dialog:()=>element('dialog').innerHTML,downloads,async click(dataset){await run(`onAction({target:{closest:()=>({dataset:${JSON.stringify(dataset)}})}})`);run('render()');}};
