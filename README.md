@@ -25,7 +25,8 @@ GitHub is the working source for ongoing edits. Site publishing is a separate st
 
 - Executive portfolio overview and property drill-downs.
 - Seven reputation views: overview, review inbox, performance, sentiment, listings, competitors, surveys.
-- Seven attribution views: overview, sources and spend, conversion, website and paid, organic content, lead journeys, recommendations.
+- Seven Marketing Intelligence views: overview, sources and spend, conversion, website and paid, organic content, lead journeys, recommendations.
+- Marketing filters for channel, source/platform, acquisition type, and inclusive custom date ranges, alongside property/company/city. The filters apply to the marketing reports and their CSV exports; reset restores the October portfolio view. Existing attribution URLs still work.
 - Working property/company/city/month filters, search and CSV exports.
 - Review assignment, editable sample reply and completed-response metrics.
 - Clickable enquiry, scheduled-tour, completed-tour, application and lease counts in the portfolio and property views.
@@ -44,7 +45,7 @@ GitHub is the working source for ongoing edits. Site publishing is a separate st
 1. Open Portfolio overview. Explain the four-property, 1,000-home fictional portfolio.
 2. Select Northpoint Apartments. Its occupancy is 93%, lead-to-lease conversion is 4.4%, and 12 reviews await responses.
 3. Open the review inbox. Open a review, assign an owner, use or edit the sample response, then complete it. The open count falls by one.
-4. Open Lead attribution and clear the property filter. Compare ILS paid cost per lease ($900) with Google Ads ($1,286) and Meta ($3,600).
+4. Open Marketing Intelligence and reset the filters. Compare ILS paid cost per lease ($900) with Google Ads ($1,286) and Meta ($3,600). Select a channel, source, acquisition type or custom date range to inspect a cohort, then click a funnel stage to open the matching journeys.
 5. Open a source and a prospect record to inspect the milestone journey. Open the portfolio Enquiries card and a prospect without a scheduled tour. Use the Tour tab to book an appointment and see both the count and communication history update.
 6. Create a follow-up task and change its owner/status in the Action Centre.
 7. Change the customer name/accent in Brand settings. Reset the demo before the next presentation if desired.
@@ -58,6 +59,8 @@ Original-source attribution gives each lease one source credit, assigned on firs
 Paid cost per lease uses 14 paid-source leases; blended ad spend per lease uses all 18 leases. Organic/referral costs are unallocated, not zero. These are advertising metrics, not full acquisition costs.
 
 October reviews total 240 with 1,000 stars: average 4.1667. 216 are answered, 24 open, and 9 marked overdue. A completed demo response updates the relevant month/property. Sentiment uses transparent sample rating buckets and topic assignments; no AI sentiment service is called.
+
+Marketing dates filter enquiry creation (inclusive), retaining later milestone outcomes. Available sample records cover September and October 2026; dates outside that coverage produce no records. Source and channel filters also narrow allocated advertising spend. Custom-date spend is a labelled estimate, prorated by calendar days from each month's sample totals. Unknown acquisition is separate from organic/direct/referral. Website/social aggregates do not have source/channel breakdowns, so those views explicitly identify the property/date scope of their illustrative traffic/content totals. Funnel drill-downs and journey exports retain the marketing cohort, milestone, source and search filters.
 
 Occupancy, listing health, competitors and survey results are fixed fictional snapshots. NPS uses a separate 240-response sample survey: 156 promoters, 60 passives, 24 detractors, for +55 NPS. It is not derived from review stars. Website/social metrics are illustrative period data; selected social examples do not sum to all period activity.
 
