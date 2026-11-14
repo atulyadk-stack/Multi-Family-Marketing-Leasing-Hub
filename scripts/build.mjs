@@ -8,6 +8,8 @@ const files = {
   'leasing.mjs': 'text/javascript; charset=utf-8',
   'prospects.mjs': 'text/javascript; charset=utf-8',
   'leasing.css': 'text/css; charset=utf-8',
+  'call-center.mjs': 'text/javascript; charset=utf-8',
+  'call-center.css': 'text/css; charset=utf-8',
   'icon.svg': 'image/svg+xml',
 };
 const assets = {};

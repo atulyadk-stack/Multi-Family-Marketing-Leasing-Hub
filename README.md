@@ -98,3 +98,9 @@ The property dialog shows contact details from the portfolio record. For a live 
 ## Prospect dashboard preview
 
 ![Prospect 360](docs/mf-hub-prospect-360.jpg)
+
+## Call Center
+
+The sidebar Call Center dashboard and portfolio KPI section share six metrics: incoming calls, answer rate, abandonment rate, average speed to answer, average handle time and call-to-tour conversion. They use the same phone events as Prospect 360 and follow property, company, city and enquiry-cohort filters. The activity list supports outcome filters, pagination, scoped CSV export and prospect-history links.
+
+These are fictional call records and browser-saved manual logs. The reporting cohort selects enquiries and their full call history; it is not a call-received date range. Missing queue or wrap-up fields are excluded from averages, and only explicitly attributed inbound bookings count toward tour conversion. Metric definitions and timing coverage appear in the dashboard. No live telephony is connected.
