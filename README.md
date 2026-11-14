@@ -133,3 +133,13 @@ Validation for this addition: syntax checks, Worker build, event/filter/RSVP/cap
 ## Portfolio overview sections
 
 The portfolio dashboard follows this order: Portfolio Overview, Leasing Overview, Marketing Overview, Call Center Overview, and Online Reputation Overview. Leasing connectors show next-stage count divided by previous-stage count for the same filtered enquiry cohort; a zero denominator displays an em dash. Marketing highlights separately rank lease volume, paid cost per lease, and lead-to-lease rate, with the underlying sample sizes visible.
+
+## Property calls, agent performance and display formats
+
+Every property detail includes Call Center KPIs, agent/service performance and call activity matching the main Call Center. Call activity supports Cards and List, outcome tabs, agent filters, pagination, matching CSV exports and links to the original prospect history. Agent rows/cards report incoming/outgoing attempts, connected calls handled, missed/voicemail, abandoned calls, answer rate, average talk/handle time and inbound tour bookings. The property scorecard shows the number of agents who handled calls.
+
+Fictional call events carry stable historical agent IDs and distinguish property leasing teams, the Central Call Center and after-hours service. Assignment does not count as handling: missed and abandoned calls are excluded from handled totals. Missing historical assignments remain unassigned, and changing a prospect owner does not rewrite existing call ownership. The same events appear in contact histories. No live call platform or staffing feed is connected.
+
+The Platform view Cards/List control sets a browser-saved default across modules. Section switches allow local overrides for summary metrics, properties, marketing, reputation, events/photos, connections, recommendations and contact-history collections. Calls and agent performance use labelled tables in List view; Lead to Lease and Communications retain their expandable list/detail view. Presentation changes preserve record filters and actions. Wide tables scroll within their section on small screens.
+
+Validation: syntax checks, Worker build and automated regression tests cover agent reconciliation, historical attribution, property isolation, filters, pagination, display preferences and export parity. A separate DOM interaction check exercises 13 routes plus property calls, agent filters and prospect navigation. Browser visual/mobile layout QA was unavailable in this environment.
