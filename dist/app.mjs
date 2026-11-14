@@ -31,7 +31,7 @@ const td=(v,right=false)=>`<td${right?' class="numeric"':''}>${v}</td>`;
 const propertyLink=p=>`<button type="button" class="link" data-action="property" data-id="${p.id}">${p.name}</button><small>${p.code} · ${p.city}</small>`;
 const stars=n=>`<span class="stars" aria-label="${n} out of 5 stars">${'★'.repeat(n)}${'☆'.repeat(5-n)}</span>`;
 const row=(a,b)=>`<div class="row"><span>${a}</span><strong>${b}</strong></div>`;
-const names={'call-center':'Call Center',pipeline:'Leasing workspace',communications:'Communications',prospect:'Prospect 360',portfolio:'Portfolio overview',properties:'Properties',reputation:'Online reputation',attribution:'Lead attribution',actions:'Action centre',connections:'Connections',settings:'Brand settings'};
+const names={'call-center':'Call Center',pipeline:'Lead to Lease',communications:'Communications',prospect:'Prospect 360',portfolio:'Portfolio overview',properties:'Properties',reputation:'Online reputation',attribution:'Lead attribution',actions:'Action centre',connections:'Connections',settings:'Brand settings'};
 function route(){const [module,tab]=location.hash.slice(1).split('/');return{module:names[module]?module:'portfolio',tab:tab||'overview'};}
 function navigate(path){callCenter.resetPage();mobileOpen=false;closeDialog();if(location.hash.slice(1)===path)render();else location.hash=path;window.scrollTo({top:0});}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{storageAvailable=false;}}
