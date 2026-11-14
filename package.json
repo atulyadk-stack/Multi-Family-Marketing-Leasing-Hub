@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
-    "check": "node --check dist/app.mjs && node --check dist/model.mjs && node --check worker/index.mjs && node --check worker/scrape.mjs && node --check worker/property-listings.mjs && node --check dist/prospects.mjs && node --check dist/leasing.mjs && node --check dist/call-center.mjs && node --check dist/marketing-touchpoints.mjs && node --check dist/events.mjs && node --check dist/events-model.mjs",
+    "check": "node --check dist/app.mjs && node --check dist/model.mjs && node --check worker/index.mjs && node --check worker/scrape.mjs && node --check worker/property-listings.mjs && node --check dist/prospects.mjs && node --check dist/leasing.mjs && node --check dist/call-center.mjs && node --check dist/marketing-touchpoints.mjs && node --check dist/events.mjs && node --check dist/events-model.mjs && node --check dist/portfolio.mjs",
     "build": "node scripts/build.mjs",
     "dev": "npm run build && node scripts/dev.mjs"
   }

@@ -82,9 +82,10 @@ export function createCallCenter({esc, icon, btn, chip, panel, heading, filters,
   function cards(m) {
     return `<div class="cc-kpis">${kpis(m).map(([label, value, detail, symbol, view]) => `<button type="button" class="metric cc-kpi" data-action="navigate" data-route="call-center/${view}" aria-label="${esc(label)}: ${esc(value)}. View calls"><span class="metric-title">${label}${icon(symbol)}</span><span class="metric-value">${value}</span><span class="metric-detail">${detail}</span><span class="cc-card-link">View calls ${icon('arrow', 12)}</span></button>`).join('')}</div>`;
   }
-  function summary() {
-    return panel('Call Center performance', 'Answer demand, protect the caller experience and turn conversations into tours.', cards(summarizeCalls(getCalls()))
-      + '<p class="footnote">Fictional call data · Same enquiry cohort and property filters · Full contact history, not calls received in a calendar month.</p>',
+  function summary({embedded = false} = {}) {
+    const body = cards(summarizeCalls(getCalls())) + '<p class="footnote">Fictional call data · Same enquiry cohort and property filters · Full contact history, not calls received in a calendar month.</p>';
+    if (embedded) return body;
+    return panel('Call Center performance', 'Answer demand, protect the caller experience and turn conversations into tours.', body,
       btn('Open Call Center ' + icon('arrow', 13), 'navigate', 'data-route="call-center"', 'ghost'), 'full cc-summary');
   }
   function dashboard(view = 'all') {

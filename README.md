@@ -129,3 +129,7 @@ Create and edit events, select participating properties, set venue/organizer/cap
 This remains a prototype: fictional data, no invitation delivery, no resident self-service registration, and no shared or cross-device event storage. Event data and uploaded pictures use a separate browser-local store (`mf-hub-onsite-events-v1`); Reset demo clears it along with other demo state. Storage failures leave the previous saved event state intact.
 
 Validation for this addition: syntax checks, Worker build, event/filter/RSVP/capacity/attendance/restore tests, and application-rendering integration checks. Browser and mobile visual QA could not run because no connected browser was available.
+
+## Portfolio overview sections
+
+The portfolio dashboard follows this order: Portfolio Overview, Leasing Overview, Marketing Overview, Call Center Overview, and Online Reputation Overview. Leasing connectors show next-stage count divided by previous-stage count for the same filtered enquiry cohort; a zero denominator displays an em dash. Marketing highlights separately rank lease volume, paid cost per lease, and lead-to-lease rate, with the underlying sample sizes visible.

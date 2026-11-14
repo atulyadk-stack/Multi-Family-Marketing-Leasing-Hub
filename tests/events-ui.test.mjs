@@ -1,3 +1,4 @@
+import {renderPortfolio} from '../dist/portfolio.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -11,7 +12,7 @@ import {createEventsWorkspace} from '../dist/events.mjs';
 function app(){
  const elements=new Map(),handlers={};
  const element=id=>{if(!elements.has(id))elements.set(id,{innerHTML:'',open:false,addEventListener(type,fn){handlers[id+':'+type]=fn;},focus(){},classList:{add(){},remove(){}},close(){this.open=false;},showModal(){this.open=true;},querySelector(){return {focus(){},isConnected:false};}});return elements.get(id);};
- let hash='#events';const context=vm.createContext({...model,prepareCRM,createCallCenter,createLeasingWorkspace,createEventsWorkspace,location:{get hash(){return hash;},set hash(v){hash=v.startsWith('#')?v:'#'+v;},origin:'https://demo.example'},fetch:async()=>({ok:false}),Intl,Date,URL,URLSearchParams,Blob,AbortSignal,setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null;},setItem(){}},document:{getElementById:element,querySelector:element,documentElement:{style:{setProperty(){}}},addEventListener(){}},window:{scrollTo(){},addEventListener(type,fn){handlers['window:'+type]=fn;}}});
+ let hash='#events';const context=vm.createContext({...model,renderPortfolio,prepareCRM,createCallCenter,createLeasingWorkspace,createEventsWorkspace,location:{get hash(){return hash;},set hash(v){hash=v.startsWith('#')?v:'#'+v;},origin:'https://demo.example'},fetch:async()=>({ok:false}),Intl,Date,URL,URLSearchParams,Blob,AbortSignal,setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null;},setItem(){}},document:{getElementById:element,querySelector:element,documentElement:{style:{setProperty(){}}},addEventListener(){}},window:{scrollTo(){},addEventListener(type,fn){handlers['window:'+type]=fn;}}});
  vm.runInContext(readFileSync(new URL('../dist/app.mjs',import.meta.url),'utf8').replace(/^import .+;\n/gm,''),context);
  return {run:s=>vm.runInContext(s,context),html:()=>element('app').innerHTML,dialog:()=>element('dialog').innerHTML,change:(key,value)=>handlers['app:change']({target:{id:'event-scope-'+key,dataset:{eventScope:key},value}})};
 }
