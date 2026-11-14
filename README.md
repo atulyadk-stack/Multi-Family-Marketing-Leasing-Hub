@@ -108,6 +108,16 @@ The sidebar Call Center dashboard and portfolio KPI section share six metrics: i
 
 These are fictional call records and browser-saved manual logs. The reporting cohort selects enquiries and their full call history; it is not a call-received date range. Missing queue or wrap-up fields are excluded from averages, and only explicitly attributed inbound bookings count toward tour conversion. Metric definitions and timing coverage appear in the dashboard. No live telephony is connected.
 
+## Lead marketing touchpoints
+
+Prospect 360 now separates marketing acquisition history from communication channels. A summary below the contact metrics shows total captured touches, distinct marketing channels, first/latest touch dates and repeat counts. Channel pills open a property-scoped Marketing journey with channel/date filters, chronological event details and a matching CSV export. The contact's original enquiry source and cumulative leasing metrics remain unchanged.
+
+The current journey contains fictional sample events, including Google ×2, Apartments.com ×3 and Facebook ×1 for Charlie Ross (L236). These events span roughly seven elapsed months across eight calendar months; they demonstrate linked history before the October enquiry. This is not a live tracker or historical backfill. Counts represent distinct recorded events, not impressions, unique sessions or distinct people.
+
+For production, ingest consented website events and source-provider lead/referral events into a separate touchpoint store. Each event needs a stable event ID, provider/external ID, contact ID, property ID, timestamp, source, medium, campaign, event type and linkage evidence. Deduplicate provider event IDs while retaining repeat events. Link to a confirmed contact by a verified identifier or authenticated association; never merge by name. Unknown visitors and unavailable third-party activity must remain unlinked. Historical tracking requires historical records; adding a tag today does not recover eight months of anonymous browsing. Use a non-personally-identifiable analytics user ID rather than email or phone.
+
+Provider references: [Google Analytics User-ID](https://developers.google.com/analytics/devguides/collection/ga4/user-id), [Apartments.com/Yardi lead attribution and tracking](https://propertyhelp.apartments.com/article/1157-how-do-i-set-up-lead-management-using-yardi), and [Apartments.com Lead API integration example](https://propertyhelp.apartments.com/article/1295-how-do-i-set-up-lead-attribution-using-eliseai).
+
 ## Onsite Activity and resident events
 
 The **Onsite Activity** navigation section adds an event calendar, planned and past event lists, and event pictures. Filter by property, management company, city, event type and date range; export the current view to CSV. Calendar navigation uses event dates in Eastern Time, independently of marketing enquiry cohorts. On narrow layouts, the calendar is presented as an agenda.
@@ -118,4 +128,4 @@ Create and edit events, select participating properties, set venue/organizer/cap
 
 This remains a prototype: fictional data, no invitation delivery, no resident self-service registration, and no shared or cross-device event storage. Event data and uploaded pictures use a separate browser-local store (`mf-hub-onsite-events-v1`); Reset demo clears it along with other demo state. Storage failures leave the previous saved event state intact.
 
-Validation for this addition: syntax checks, Worker build, event/filter/RSVP/capacity/attendance/restore tests, and application-rendering integration checks. Browser and mobile visual QA could not run because no connected browser was available. Site publication requires synchronizing the committed source with the existing Sites source repository; the Sites Git hostname was unavailable in this session.
+Validation for this addition: syntax checks, Worker build, event/filter/RSVP/capacity/attendance/restore tests, and application-rendering integration checks. Browser and mobile visual QA could not run because no connected browser was available.
